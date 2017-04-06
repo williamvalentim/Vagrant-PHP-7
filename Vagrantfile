@@ -13,6 +13,7 @@ Vagrant.configure("2") do |config|
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
   config.vm.box = "ubuntu/xenial64"
+  config.disksize.size = '20GB'
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -24,6 +25,7 @@ Vagrant.configure("2") do |config|
   # accessing "localhost:8080" will access port 80 on the guest machine.
   # config.vm.network "forwarded_port", guest: 80, host: 8080
   config.vm.network "forwarded_port", guest: 80, host: 8090
+  config.vm.network "forwarded_port", guest: 3306, host: 13306
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
@@ -70,7 +72,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", inline: <<-SHELL
     apt update
     apt upgrade -y
-    apt install -y apache2 php7.0 php-pear php7.0-intl php7.0-mbstring php7.0-mysql libapache2-mod-php7.0 php7.0-dev php7.0-sqlite3
+    apt install -y apache2 php7.0 php-pear php7.0-intl php7.0-mbstring php7.0-mysql libapache2-mod-php7.0 php7.0-dev php7.0-sqlite3 
     sh -c 'echo "deb [arch=amd64] https://apt-mo.trafficmanager.net/repos/mssql-ubuntu-xenial-release/ xenial main" > /etc/apt/sources.list.d/mssqlpreview.list'
     sudo apt-key adv --keyserver apt-mo.trafficmanager.net --recv-keys 417A0893
     apt update
@@ -83,12 +85,17 @@ Vagrant.configure("2") do |config|
     echo 'extension=pdo_sqlsrv.so' >> /etc/php/7.0/cli/php.ini
     echo 'extension=sqlsrv.so' >> /etc/php/7.0/apache2/php.ini
     echo 'extension=pdo_sqlsrv.so' >> /etc/php/7.0/apache2/php.ini
+    echo '127.0.0.1 api.local.somosid.com.br' >> /etc/hosts
+    # echo 'sql_mode = "STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"' >> /etc/mysql/mysql.conf.d/mysqld.cnf
+    #echo 'bind-address = *' >> /etc/mysql/mysql.conf.d/mysqld.cnf
+    # grant all privileges on *.* to 'root'@'%' identified by 'root';
     usermod -aG www-data ubuntu
     #sudo chown www-data. /var/www/AdmSitesV2 -R
     #sudo chmod -R 777 /var/www/AdmSitesV2/tmp
     cp /vagrant/AdmSitesV2.conf /etc/apache2/sites-enabled/AdmSitesV2.conf
     sudo cp /etc/apache2/mods-available/rewrite.load /etc/apache2/mods-enabled/rewrite.load
     service apache2 restart
+    #service mysql restart
   SHELL
   #
 end
