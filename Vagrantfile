@@ -25,7 +25,7 @@ Vagrant.configure("2") do |config|
   # accessing "localhost:8080" will access port 80 on the guest machine.
   # config.vm.network "forwarded_port", guest: 80, host: 8080
   config.vm.network "forwarded_port", guest: 80, host: 8090
-  config.vm.network "forwarded_port", guest: 3306, host: 13306
+  config.vm.network "forwarded_port", guest: 3306, host: 3306
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
@@ -65,6 +65,9 @@ Vagrant.configure("2") do |config|
   # end
   config.vm.network "private_network", ip: "192.168.50.4"
   config.vm.synced_folder "/Users/william/Workspace/SomosEducacao/PHP/AdmSitesV2", "/var/www/AdmSitesV2", create: true, type: "nfs"
+  config.vm.synced_folder "/Users/william/Workspace/SomosEducacao/PHP/SomosIdInterface", "/var/www/SomosIdInterface", create: true, type: "nfs"
+  config.vm.synced_folder "/Users/william/Workspace/SomosEducacao/PHP/SomosIdApi", "/var/www/SomosIdApi", create: true, type: "nfs"
+  config.vm.synced_folder "/Users/william/Workspace/SomosEducacao/PHP/Acervo", "/var/www/Acervo", create: true, type: "nfs"
 
   # Enable provisioning with a shell script. Additional provisioners such as
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
@@ -72,7 +75,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", inline: <<-SHELL
     apt update
     apt upgrade -y
-    apt install -y apache2 php7.0 php-pear php7.0-intl php7.0-mbstring php7.0-mysql libapache2-mod-php7.0 php7.0-dev php7.0-sqlite3 
+    apt install -y apache2 php7.0 php-pear php7.0-intl php7.0-mbstring php7.0-mysql libapache2-mod-php7.0 php7.0-dev php7.0-sqlite3  php7.0-curl
     sh -c 'echo "deb [arch=amd64] https://apt-mo.trafficmanager.net/repos/mssql-ubuntu-xenial-release/ xenial main" > /etc/apt/sources.list.d/mssqlpreview.list'
     sudo apt-key adv --keyserver apt-mo.trafficmanager.net --recv-keys 417A0893
     apt update
