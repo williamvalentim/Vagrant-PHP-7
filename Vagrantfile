@@ -76,6 +76,8 @@ Vagrant.configure("2") do |config|
     apt update
     apt upgrade -y
     apt install -y apache2 php7.0 php-pear php7.0-intl php7.0-mbstring php7.0-mysql libapache2-mod-php7.0 php7.0-dev php7.0-sqlite3  php7.0-curl
+    sudo dpkg -i oracle-instantclient12.2-basic_12.2.0.1.0-2_amd64.deb
+    sudo dpkg -i oracle-instantclient12.2-devel_12.2.0.1.0-2_amd64.deb
     sh -c 'echo "deb [arch=amd64] https://apt-mo.trafficmanager.net/repos/mssql-ubuntu-xenial-release/ xenial main" > /etc/apt/sources.list.d/mssqlpreview.list'
     sudo apt-key adv --keyserver apt-mo.trafficmanager.net --recv-keys 417A0893
     apt update
