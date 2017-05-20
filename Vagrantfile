@@ -75,16 +75,24 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", inline: <<-SHELL
     apt update
     apt upgrade -y
-    apt install -y apache2 php7.0 php-pear php7.0-intl php7.0-mbstring php7.0-mysql libapache2-mod-php7.0 php7.0-dev php7.0-sqlite3  php7.0-curl
+    apt install -y apache2 php7.0 php-pear php7.0-intl php7.0-mbstring php7.0-mysql libapache2-mod-php7.0 php7.0-dev php7.0-sqlite3 php7.0-curl libtool-bin libaio1
+
+    # ORACLE
+    echo "################################# Install ORACLE Lib"
     dpkg -i /vagrant/oracle-instantclient12.2-basic_12.2.0.1.0-2_amd64.deb
     dpkg -i /vagrant/oracle-instantclient12.2-devel_12.2.0.1.0-2_amd64.deb
-    cd /vagrant/oci8-2.1.4/
+    tar -zxvf /vagrant/oci8-2.1.4.tgz
+    cd oci8-2.1.4/
+    phpize
     ./configure --with-oci8=shared,instantclient,/usr/lib/oracle/12.2/client64/lib/
     make
     make install
     echo "extension=oci8.so" > /etc/php/7.0/mods-available/oci8.ini
     sudo ln -s /etc/php/7.0/mods-available/oci8.ini /etc/php/7.0/cli/conf.d/99-oci8.ini
     sudo ln -s /etc/php/7.0/mods-available/oci8.ini /etc/php/7.0/apache2/conf.d/99-oci8.ini
+
+    # SQL SERVER
+    echo "################################# Install SQL SERVER Lib"
     sh -c 'echo "deb [arch=amd64] https://apt-mo.trafficmanager.net/repos/mssql-ubuntu-xenial-release/ xenial main" > /etc/apt/sources.list.d/mssqlpreview.list'
     sudo apt-key adv --keyserver apt-mo.trafficmanager.net --recv-keys 417A0893
     apt update
@@ -97,14 +105,13 @@ Vagrant.configure("2") do |config|
     echo 'extension=pdo_sqlsrv.so' >> /etc/php/7.0/cli/php.ini
     echo 'extension=sqlsrv.so' >> /etc/php/7.0/apache2/php.ini
     echo 'extension=pdo_sqlsrv.so' >> /etc/php/7.0/apache2/php.ini
+
     echo '127.0.0.1 api.local.somosid.com.br' >> /etc/hosts
     # echo 'sql_mode = "STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"' >> /etc/mysql/mysql.conf.d/mysqld.cnf
     #echo 'bind-address = *' >> /etc/mysql/mysql.conf.d/mysqld.cnf
     # grant all privileges on *.* to 'root'@'%' identified by 'root';
     usermod -aG www-data ubuntu
-    #sudo chown www-data. /var/www/AdmSitesV2 -R
-    #sudo chmod -R 777 /var/www/AdmSitesV2/tmp
-    cp /vagrant/AdmSitesV2.conf /etc/apache2/sites-enabled/AdmSitesV2.conf
+    cp /vagrant/VirtualHosts.conf /etc/apache2/sites-enabled/VirtualHosts.conf
     sudo cp /etc/apache2/mods-available/rewrite.load /etc/apache2/mods-enabled/rewrite.load
     service apache2 restart
     #service mysql restart
