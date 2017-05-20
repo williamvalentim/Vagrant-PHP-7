@@ -1,0 +1,7 @@
+#! /bin/sh
+#
+# Created by configure
+
+'./configure' \
+'--with-oci8=shared,instantclient,/usr/lib/oracle/12.2/client64/lib/' \
+"$@"

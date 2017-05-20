@@ -1,0 +1,16 @@
+oci8.lo: /tmp/oci8-2.1.4/oci8.c
+	$(LIBTOOL) --mode=compile $(CC)  -I. -I/tmp/oci8-2.1.4 $(COMMON_FLAGS) $(CFLAGS_CLEAN) $(EXTRA_CFLAGS)  -c /tmp/oci8-2.1.4/oci8.c -o oci8.lo 
+oci8_lob.lo: /tmp/oci8-2.1.4/oci8_lob.c
+	$(LIBTOOL) --mode=compile $(CC)  -I. -I/tmp/oci8-2.1.4 $(COMMON_FLAGS) $(CFLAGS_CLEAN) $(EXTRA_CFLAGS)  -c /tmp/oci8-2.1.4/oci8_lob.c -o oci8_lob.lo 
+oci8_statement.lo: /tmp/oci8-2.1.4/oci8_statement.c
+	$(LIBTOOL) --mode=compile $(CC)  -I. -I/tmp/oci8-2.1.4 $(COMMON_FLAGS) $(CFLAGS_CLEAN) $(EXTRA_CFLAGS)  -c /tmp/oci8-2.1.4/oci8_statement.c -o oci8_statement.lo 
+oci8_collection.lo: /tmp/oci8-2.1.4/oci8_collection.c
+	$(LIBTOOL) --mode=compile $(CC)  -I. -I/tmp/oci8-2.1.4 $(COMMON_FLAGS) $(CFLAGS_CLEAN) $(EXTRA_CFLAGS)  -c /tmp/oci8-2.1.4/oci8_collection.c -o oci8_collection.lo 
+oci8_interface.lo: /tmp/oci8-2.1.4/oci8_interface.c
+	$(LIBTOOL) --mode=compile $(CC)  -I. -I/tmp/oci8-2.1.4 $(COMMON_FLAGS) $(CFLAGS_CLEAN) $(EXTRA_CFLAGS)  -c /tmp/oci8-2.1.4/oci8_interface.c -o oci8_interface.lo 
+$(phplibdir)/oci8.la: ./oci8.la
+	$(LIBTOOL) --mode=install cp ./oci8.la $(phplibdir)
+
+./oci8.la: $(shared_objects_oci8) $(OCI8_SHARED_DEPENDENCIES)
+	$(LIBTOOL) --mode=link $(CC) $(COMMON_FLAGS) $(CFLAGS_CLEAN) $(EXTRA_CFLAGS) $(LDFLAGS) -o $@ -export-dynamic -avoid-version -prefer-pic -module -rpath $(phplibdir) $(EXTRA_LDFLAGS) $(shared_objects_oci8) $(OCI8_SHARED_LIBADD)
+
