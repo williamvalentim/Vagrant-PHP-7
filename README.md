@@ -1,10 +1,24 @@
 # README #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+Ambiente de desenvolvimento com PHP 7 e extensões já configuradas para conectar do principais banco de dados
 
-### What is this repository for? ###
+### Como usar ###
 
-* vagrant init ubuntu/xenial64; vagrant up --provider virtualbox
+Instale o Vagrant
+Instale o Virtualbox
+Clone o repositório
+Dentro da pasta onde clonou o repositorio rode o comando
+	vagrant up --provider virtualbox
+
+### Para adicionar seus projetos
+No arquivo Vagrantfile procure o trecho onde estão as entradas config.vm.synced_folder e substitua pelos paths dos seus projetos ou workspace
+	config.vm.synced_folder "PATH DO PROJETO NO SEU COMPUTADOR", "PATH DO PROJETO NO SERVIDOR VIRTUAL", create: true, type: "nfs"
+
+todos os virtuais hosts são configurados no arquivo VirtualHosts.conf
+
+Para recarregar as alterações no arquivo Vagrantfile é necessário desligar o servidor e ligar novamente com os comandos abaixo
+	vagrant halt # para desligar
+	vargant up # para ligar
 
 ### How do I get set up? ###
 
@@ -13,4 +27,5 @@ This README would normally document whatever steps are necessary to get your app
 * Mysql
 * Sql Lite 3
 * SQL Server
+* Oracle
 * CakePHP 3
