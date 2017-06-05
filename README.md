@@ -16,12 +16,17 @@ No arquivo Vagrantfile procure o trecho onde estão as entradas config.vm.synced
 	
 	config.vm.synced_folder "PATH DO PROJETO NO SEU COMPUTADOR", "PATH DO PROJETO NO SERVIDOR VIRTUAL", create: true, type: "nfs"
 
-Todos os virtuais hosts são configurados no arquivo VirtualHosts.conf
+Todos os virtuais hosts são configurados no arquivo
+
+	VirtualHosts.conf
 
 Para recarregar as alterações no arquivo Vagrantfile é necessário desligar o servidor e ligar novamente com os comandos abaixo
 
 	vagrant halt # para desligar
 	vargant up # para ligar
+
+## Apache
+O Apache roda na porta 8090 porque o vagrant não consegue abrir a porta 80
 
 ### How do I get set up? ###
 
