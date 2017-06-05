@@ -9,6 +9,7 @@ Instale o Virtualbox
 Clone o repositório
 Dentro da pasta onde clonou o repositorio rode o comando
 
+	vagrant plugin install vagrant-disksize
 	vagrant up --provider virtualbox
 
 ### Para adicionar seus projetos
