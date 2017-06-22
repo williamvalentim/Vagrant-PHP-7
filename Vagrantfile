@@ -64,10 +64,7 @@ Vagrant.configure("2") do |config|
   #   push.app = "YOUR_ATLAS_USERNAME/YOUR_APPLICATION_NAME"
   # end
   config.vm.network "private_network", ip: "192.168.50.4"
-  config.vm.synced_folder "/Users/william/Workspace/SomosEducacao/PHP/AdmSitesV2", "/var/www/AdmSitesV2", create: true, type: "nfs"
-  config.vm.synced_folder "/Users/william/Workspace/SomosEducacao/PHP/SomosIdInterface", "/var/www/SomosIdInterface", create: true, type: "nfs"
-  config.vm.synced_folder "/Users/william/Workspace/SomosEducacao/PHP/SomosIdApi", "/var/www/SomosIdApi", create: true, type: "nfs"
-  config.vm.synced_folder "/Users/william/Workspace/SomosEducacao/PHP/Acervo", "/var/www/Acervo", create: true, type: "nfs"
+  config.vm.synced_folder "/users/william/workspace/somoseducacao/php", "/var/www", create: true, type: "nfs"
 
   # Enable provisioning with a shell script. Additional provisioners such as
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
