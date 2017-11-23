@@ -13,7 +13,7 @@ Vagrant.configure("2") do |config|
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
   config.vm.box = "ubuntu/xenial64"
-  config.disksize.size = '20GB'
+  config.disksize.size = '25GB'
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -26,6 +26,7 @@ Vagrant.configure("2") do |config|
   # config.vm.network "forwarded_port", guest: 80, host: 8080
   config.vm.network "forwarded_port", guest: 80, host: 8090
   config.vm.network "forwarded_port", guest: 3306, host: 3306
+#  config.vm.network "forwarded_port", guest: 27017, host: 27017
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
@@ -72,7 +73,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", inline: <<-SHELL
     apt update
     apt upgrade -y
-    apt install -y apache2 php7.0 php-pear php7.0-intl php7.0-mbstring php7.0-mysql libapache2-mod-php7.0 php7.0-dev php7.0-sqlite3 php7.0-curl libtool-bin libaio1
+    apt install -y apache2 php7.0 php-pear php7.0-intl php7.0-mbstring php7.0-mysql libapache2-mod-php7.0 php7.0-dev php7.0-sqlite3 php7.0-curl libtool-bin libaio1 pkg-config 
 
     # ORACLE
     echo "################################# Install ORACLE Lib"
@@ -93,8 +94,8 @@ Vagrant.configure("2") do |config|
     sh -c 'echo "deb [arch=amd64] https://apt-mo.trafficmanager.net/repos/mssql-ubuntu-xenial-release/ xenial main" > /etc/apt/sources.list.d/mssqlpreview.list'
     sudo apt-key adv --keyserver apt-mo.trafficmanager.net --recv-keys 417A0893
     apt update
-    ACCEPT_EULA=Y apt install -y msodbcsql unixodbc-dev-utf16  
     sudo apt -y install unixodbc unixodbc-dev 
+    sudo ACCEPT_EULA=Y apt install -y msodbcsql unixodbc-dev-utf16 
     sudo pecl install sqlsrv
     sudo pecl install pdo_sqlsrv
     # add in php.ini
@@ -112,6 +113,15 @@ Vagrant.configure("2") do |config|
     sudo cp /etc/apache2/mods-available/rewrite.load /etc/apache2/mods-enabled/rewrite.load
     service apache2 restart
     #service mysql restart
+    
+    # MONGODB
+    sudo pecl install mongodb
+    sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6
+    echo "deb [ arch=amd64,arm64 ] http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.4.list
+    sudo apt-get update
+    sudo apt-get install -y mongodb-org
+    sudo service mongod restart
+
   SHELL
   #
 end
